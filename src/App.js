@@ -10,7 +10,7 @@ class App extends Component {
         todos: [
             {id:0, text:' 리액트 소개', checked: false},
             {id:1, text:' 리액트 공부', checked: true},
-            {id:2, text:' 리액트 실전', checked: false}
+            {id:2, text:' 리액트 실', checked: false}
         ]
     }
     handleChange = (e) => {
@@ -35,12 +35,26 @@ class App extends Component {
         }
     }
 
+    handleToggle = (id) => {
+        const {todos} = this.state;
+        const index = todos.findIndex(todo => todo.id === id);
+        const selected = todos[index];
+        const nextTodos = [...todos];
+        nextTodos[index] = {
+            ...selected,
+            checked: !selected.checked
+        }
+        this.setState({
+            todos: nextTodos
+        });
+    }
     render() {
         const {input, todos} = this.state;
         const {
             handleChange,
             handleCreate,
-            handleKeyPress
+            handleKeyPress,
+            handleToggle
         } = this;
 
         return (
@@ -52,7 +66,7 @@ class App extends Component {
                     onCreate={handleCreate}
                 />
                 )}>
-                <TodoItemList todos={todos}/>
+                <TodoItemList todos={todos} onToggle={handleToggle}/>
             </TodoListTemplate>
         )
     }
